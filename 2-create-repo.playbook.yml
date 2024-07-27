@@ -20,4 +20,3 @@
        gpgcheck: no
        enabled: no
        state: present
-

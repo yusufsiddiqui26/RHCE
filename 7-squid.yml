@@ -1,0 +1,7 @@
+---
+ - name: Installing squid with using role
+   hosts: balancers
+   become: yes
+   gather_facts: yes
+   roles:
+    - squid 

@@ -1,0 +1,11 @@
+---
+ - name: creating a hosts file in remote machine
+   hosts: all
+   become: yes
+   gather_facts: yes
+   tasks:
+   - name: creating hosts file using template
+     ansible.builtin.template:
+       src: ./10-hosts.j2
+       dest: /etc/myhosts
+     when: inventory_hostname in groups['dev']

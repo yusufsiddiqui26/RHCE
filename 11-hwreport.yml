@@ -1,0 +1,10 @@
+---
+ - name: creating info file of server
+   hosts: all
+   become: yes
+   gather_facts: yes
+   tasks:
+   - name: creating hardware report
+     ansible.builtin.template:
+       src: ./hwreport.txt.j2
+       dest: /root/hwreport.txt 

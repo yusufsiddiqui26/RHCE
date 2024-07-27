@@ -1,0 +1,10 @@
+
+Inventory Hostname: {{ ansible_facts['hostname'] }}
+Total memory in MB: {{ ansible_facts['memtotal_mb'] }}
+Bios version: {{ ansible_facts['bios_version'] }}
+{% for each in ansible_facts['mounts'] %}
+Disk Name: {{ each['device'] }}
+DISK Size: {{ each['size_total'] }}
+{% endfor %}
+
+

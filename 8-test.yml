@@ -1,0 +1,29 @@
+---
+- name: file creation ans permission
+  hosts: test
+  become: yes
+  gather_facts: yes
+  tasks:
+  - name: group creation
+    ansible.builtin.group:
+      name: webtest
+      state: present
+  - name: directory Creation
+    ansible.builtin.file:
+     path: /webtest
+     state: directory
+     mode: "2775"
+     group: webtest
+     owner: apache
+  - name: Creating symbolic link
+    ansible.builtin.file:
+      src: /webtest
+      dest: /var/www/html/webtest
+      state: link
+  - name: edit the entry on file
+    ansible.builtin.copy:
+      content: "Testing"
+      dest: /webtest/index.html
+      mode: '640'
+      owner: apache
+     

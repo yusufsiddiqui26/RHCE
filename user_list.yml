@@ -1,0 +1,13 @@
+users:
+  - name: adam
+    job: developer
+    uid: 3000
+  - name: gabbr
+    job: manager
+    uid: 4000
+  - name: yusuf
+    job: manager
+    uid: 5000
+  - name: maroon
+    job: developer
+    uid: 6000

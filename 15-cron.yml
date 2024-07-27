@@ -1,0 +1,17 @@
+---
+ - name: creating a cron job
+   hosts: all
+   become: yes
+   gather_facts: yes
+   tasks:
+   - name: user creation
+     ansible.builtin.user:
+       name: natasha
+       state: present
+   - name: cron scheduling
+     ansible.builtin.cron:
+       name: "cron jobs for natasha"
+       user: natasha
+       job: 'logger "ex294 exam in progress"'
+       minute: "*/2"
+       

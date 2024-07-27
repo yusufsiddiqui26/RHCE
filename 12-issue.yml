@@ -1,0 +1,22 @@
+---
+ - name: creating issue file 
+   hosts: all
+   become: yes
+   gather_facts: yes
+   tasks:
+   - name: creating file with content
+     ansible.builtin.copy:
+       content: "Development"
+       dest: /etc/issue
+     when: inventory_hostname in groups['dev']
+   - name: creating file with content
+     ansible.builtin.copy:
+       content: "Test"
+       dest: /etc/issue
+     when: inventory_hostname in groups['test']
+   - name: creating file with content
+     ansible.builtin.copy:
+       content: "Production"
+       dest: /etc/issue
+     when: inventory_hostname in groups['prod']
+

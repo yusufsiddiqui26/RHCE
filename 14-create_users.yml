@@ -1,0 +1,43 @@
+---
+ - name: creat users for developer
+   hosts: dev,test
+   vars_files:
+     - ./user_list.yml
+     - ./9-vault.yml
+   become: yes
+   tasks:
+   - name: Group Creation
+     ansible.builtin.group:
+       name: devops
+       state: present
+   - name: Creating password for developer
+     ansible.builtin.user:
+       name: "{{item.name}}"
+       uid: "{{item.uid}}"
+       group: devops
+       state: present
+       password: "{{ dev_pass | password_hash('sha512') }}"
+     when: item.job == "developer"
+     loop: "{{ users }}"  
+
+ - name: creating users for manager
+   hosts: prod
+   vars_files:
+     - ./user_list.yml
+     - ./9-vault.yml
+   become: yes
+   tasks:
+   - name: Group Creation
+     ansible.builtin.group:
+       name: opsmgr
+       state: present
+   - name: Creating password for manager
+     ansible.builtin.user:
+       name: "{{item.name}}"
+       uid: "{{item.uid}}"
+       group: opsmgr
+       state: present
+       password: "{{ mgr_pass | password_hash('sha512') }}"
+     when: item.job == "manager"
+     loop: "{{ users }}"
+    
