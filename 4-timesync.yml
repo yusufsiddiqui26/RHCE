@@ -1,0 +1,11 @@
+---
+ - name: NTP Synchronization
+   hosts: all
+   become: yes
+   gather_facts: yes
+   vars:
+    timesync_ntp_servers:
+    - hostname: in.pool.ntp.org
+      iburst: yes
+   roles:
+    - /usr/share/ansible/roles/rhel-system-roles.timesync

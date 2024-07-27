@@ -1,0 +1,7 @@
+---
+ - name: sample role called via playbook
+   hosts: webservers
+   become: yes
+   gather_facts: yes
+   roles:
+    - apache

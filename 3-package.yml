@@ -1,0 +1,21 @@
+---
+ - name: Playbook to install packages
+   hosts: all
+   become: yes
+   gather_facts: yes
+   tasks:
+    - ansible.builtin.dnf:
+       name: "{{item}}"
+       state: present
+      loop:
+      - php
+      - mariadb
+      when: inventory_hostname in groups["dev"] or inventory_hostname in groups["test"] or inventory_hostname in groups["prod"]
+    - ansible.builtin.dnf:
+       name: "@RPM Development Tools"
+       state: present
+      when: inventory_hostname in groups["dev"]
+    - ansible.builtin.dnf:
+       name: "*"
+       state: latest
+      when: inventory_hostname in groups["dev"]

@@ -1,0 +1,23 @@
+---
+ - name: initialize repository
+   hosts: all
+   gather_facts: yes
+   become: yes
+   tasks:
+   - ansible.builtin.yum_repository:
+       name: BaseOS
+       description: BaseOS YUM repo
+       file: demo_external_repo
+       baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+       gpgcheck: no
+       enabled: no
+       state: present
+   - ansible.builtin.yum_repository:
+       name: AppStream
+       description: AppStream YUM repo
+       file: demo_external_repo
+       baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+       gpgcheck: no
+       enabled: no
+       state: present
+
