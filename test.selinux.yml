@@ -1,0 +1,9 @@
+---
+- name: Set SELinux to permissive
+  hosts: all
+  become: yes
+  tasks:
+    - name: Ensure SELinux is set to permissive
+      selinux:
+        state: enforcing
+        policy: targeted

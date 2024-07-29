@@ -1,0 +1,44 @@
+---
+- name: playbook for partition
+  hosts: all
+  become: yes
+  tasks:
+    - name: check storage is available or not
+      block:
+        - name: if disk not avalable print msg not available disk
+          debug:
+            msg: "Disk not available"
+          when: "'vdb' not in ansible_devices"
+        - name: creat 1200m partition with vdb
+          parted:
+            device: /dev/vdb
+            number: 1
+            part_end: 1200m
+            state: present
+          when: "'vdb' in ansible_devices"
+      rescue:
+        - name: if size not avalable in disk
+          debug:
+            msg: "size not available"
+          when: "'vdb' in ansible_devices"
+        - name: creat 800m partition with vdb
+          parted:
+            device: /dev/vdb
+            number: 1
+            part_end: 800m
+            state: present
+          when: "'vdb' in ansible_devices"
+      always:
+        - name: Filesystem creation
+          filesystem:
+            fstype: ext4
+            dev: /dev/vdb1
+          when: "'vdb' in ansible_devices"
+        - name: mounting partitions
+          mount:
+            path: /srv
+            src: /dev/vdb1
+            state: mounted
+            fstype: ext4
+          when: inventory_hostname in groups['prod']
+

@@ -1,0 +1,35 @@
+---
+ - name: lvm creation
+   hosts: all
+   gather_facts: yes
+   become: yes
+   tasks:
+    - name: checking the data
+      block:
+        - name: if volume reserch not exist print error
+          debug:
+            msg: "Volume group does not exist"
+          when: "'reserch' not in ansible_lvm.vgs"
+        - name: Creating the 1200m lvm
+          lvol:
+            vg: reserch
+            lv: data
+            size: 1200m
+          when: "'reserch' in ansible_lvm.vgs"
+      rescue:
+        - name: if required size is not exist
+          debug:
+            msg: "the required size is not available"
+          when: "'reserch' in ansible_lvm.vgs"
+        - name: creating lv with size of 800
+          lvol:
+            vg: reserch
+            lv: data
+            size: 800m
+          when: "'reserch' in ansible_lvm.vgs"
+      always:
+        - name: formating the filesystem
+          filesystem:
+            fstype: ext4
+            dev: /dev/reserch/data
+          when: "'reserch' in ansible_lvm.lvs"

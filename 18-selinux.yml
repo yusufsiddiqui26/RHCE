@@ -1,0 +1,8 @@
+---
+- name: playbook for se linux
+  hosts: all
+  become: yes
+  vars:
+    - selinux_state: permissive
+  roles:
+    - linux-system-roles.selinux
